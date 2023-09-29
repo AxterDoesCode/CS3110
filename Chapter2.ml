@@ -28,3 +28,8 @@ let _ = if 2 > 1 then 42 else 7
 (** Exercise: double fun [*]
    *)
 let double x = x * 2
+let _ = assert (double 12 = 24)
+
+(** Exercise: more fun [*]
+   *)
+
