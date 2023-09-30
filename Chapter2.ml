@@ -54,3 +54,18 @@ let datefun d m = if m = "Jan" || m = "Mar" || m = "May" || m = "Jul" || m = "Au
     else if m = "Feb"
     then 1 <= d && d <= 28
     else false
+
+(** Exercise: fib [**]
+   *)
+
+let rec fib n = if n <= 2 then 1
+        else fib (n - 1) + fib (n - 2)
+
+(** Exercise: fib fast [***]
+   *)
+
+let rec h n pp p = if n = 0 then p
+    else h (n - 1) p (pp + p)
+
+let fib_fast n = if n=0 then 0
+    else h n 0 1
