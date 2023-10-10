@@ -85,3 +85,43 @@ let print_int_list' lst =
     List.iter (fun x -> (print_endline (string_of_int x))) lst
 
 
+(** Exercise: student [**] *)
+type student = {first_name : string; last_name : string; gpa : float}
+let _ = {first_name = "Alex"; last_name = "Chau"; gpa = 4.;}
+let student_name = function
+    | {first_name;last_name;_} -> (first_name, last_name)
+let new_student fn ln gpa = {first_name = fn; last_name = ln; gpa}
+
+(** Exercise: pokerecord [**] *)
+type poketype = Normal | Fire | Water
+type pokemon = {name : string; hp : int; ptype: poketype}
+let p1 = {name = "Charizard"; hp = 78; ptype = Fire}
+let p2 = {name = "Squirtle"; hp = 44; ptype = Water}
+
+(** Exercise: safe hd and tl [**] *)
+let safe_hd = function
+    | [] -> None
+    | x :: xs -> Some x
+
+let safe_tl = function
+    | [] -> None
+    | x :: xs -> Some xs
+
+(** Exercise: pokefun [***] *)
+let p3 = {name = "Groudon"; hp = 100; ptype = Fire}
+let rec max_hp = function
+    | [] -> None
+    | x :: xs -> begin
+        match max_hp xs with
+            | None -> Some x
+            | Some poke -> Some (if x.hp >= poke.hp then x else poke)
+    end
+(*Tail Recursive implementation cos why not*)
+let max_hp' = function
+    | [] -> None
+    | poke1 :: pt -> begin
+        let rec max_hp_tr acc lst = match lst with
+            | [] -> Some acc
+            | x :: xs -> max_hp_tr (if acc.hp >= x.hp then acc else x) xs
+        in max_hp_tr poke1 pt
+    end
