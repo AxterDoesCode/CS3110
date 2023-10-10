@@ -61,3 +61,17 @@ let drop_tr = drop
 (**drop above is inherently tail recursive**)
 
 (** Exercise: unimodal [***] *)
+let rec is_mon_dec = function
+    | [] | [_] -> true
+    | h1 :: h2 :: t -> h1 >= h2 && is_mon_dec t
+
+let rec is_mon_inc_dec = function
+    | [] | [_] -> true
+    | h1 :: h2 :: t -> if h1 <= h2 then is_mon_inc_dec t else is_mon_dec t
+
+(** Exercise: powerset [***] *) (**Need to read over again later**)
+let rec powerset = function
+    | [] -> [ [] ]
+    | x :: s -> let p = powerset s in
+        List.map (List.cons x) p @ p
+
