@@ -75,3 +75,13 @@ let rec powerset = function
     | x :: s -> let p = powerset s in
         List.map (List.cons x) p @ p
 
+(** Exercise: print int list rec [**] *)
+let rec print_int_list = function
+    | [] -> ()
+    | x :: xs -> print_endline (string_of_int x); print_int_list xs
+
+(** Exercise: print int list iter [**] *)
+let print_int_list' lst =
+    List.iter (fun x -> (print_endline (string_of_int x))) lst
+
+
