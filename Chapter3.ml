@@ -125,3 +125,31 @@ let max_hp' = function
             | x :: xs -> max_hp_tr (if acc.hp >= x.hp then acc else x) xs
         in max_hp_tr poke1 pt
     end
+
+(** Exercise: date before [**] *)
+type date = int * int * int
+let is_before date1 date2 = 
+    let (y1, m1, d1) = date1 in
+    let (y2, m2, d2) = date2 in
+    y1 < y2 || (y1 = y2 && m1 < m2) || (y1 = y2 && m1 = m2 && d1 < d2)
+
+(** Exercise: earliest date [***] *)
+let rec earliest = function
+    | [] -> None
+    | d1 :: xs -> begin
+        match earliest xs with
+            | None -> Some d1
+            | Some d2 -> Some (if is_before d1 d2 then d1 else d2)
+    end
+
+(*Tail recursive implementation of earliest*)
+let earliest' = function
+    | [] -> None
+    | d1 :: xs -> begin
+        let rec earliest_tr acc lst = match lst with
+            | [] -> Some acc
+            | d2 :: ds -> earliest_tr (if is_before acc d2 then acc else d2) ds
+        in earliest_tr d1 xs
+    end
+
+
