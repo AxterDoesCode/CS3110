@@ -186,4 +186,89 @@ let lst4 : int option list = [None]
 (*Impossible this binds to everything that is non zero length you can only not match it with the empty list []*)
 
 (** Exercise: quadrant [**] *)
+type quad = I | II | III | IV
+type sign = Neg | Zero | Pos
 
+let sign (x:int) : sign =
+    if x < 0 then Neg else
+    if x > 0 then Pos else Zero
+
+let quadrant : int*int -> quad option = fun (x,y) ->
+  match (sign x, sign y) with
+    | (Pos, Pos) -> Some I
+    | (Neg, Pos) -> Some II
+    | (Neg, Neg) -> Some III
+    | (Pos, Neg) -> Some IV
+    |  _ -> None
+
+(** Exercise: quadrant when [**] *)
+let quadrant_when : int*int -> quad option = function
+    | x,y when x > 0 && y > 0 -> Some I
+    | x,y when x < 0 && y > 0 -> Some II
+    | x,y when x > 0 && y < 0 -> Some III
+    | x,y when x < 0 && y < 0 -> Some IV
+    | _ -> None
+
+(** Exercise: depth [**] *)
+type 'a tree = Leaf | Node of 'a * 'a tree * 'a tree
+let rec depth = function
+    | Leaf -> 0
+    | Node (_, left, right) -> 1 + max (depth left) (depth right)
+
+(** Exercise: shape [***] *)
+let rec shape t1 t2 = match (t1, t2) with 
+    | (Leaf, Leaf) -> true
+    | (Node (_, l1, r1), Node (_, l2, r2)) -> shape l1 l2 && shape r1 r2
+    | _ -> false
+
+(** Exercise: list max exn [**] *)
+let list_max_exn = function
+    | [] -> failwith "list_max"
+    | x :: xs -> begin
+        let rec list_max_tr acc = function
+            | [] -> acc
+            | x2 :: x2s -> list_max_tr (max acc x2) x2s
+        in list_max_tr x xs
+    end
+
+
+(** Exercise: list max exn string [**] *)
+let list_max_string = function
+    | [] -> "empty"
+    | x :: xs -> begin
+        let rec list_max_string_tr acc = function
+            | [] -> acc
+            | hd :: t -> list_max_string_tr (max acc hd) t
+        in string_of_int (list_max_string_tr x xs)
+    end
+
+let list_max_string' lst = 
+    try string_of_int (list_max_exn lst) with
+        | Failure _ -> "empty"
+
+(** Exercise: list max exn ounit [*] *)
+(* you'll need to put this code in a separate file, as usual, to run the tests *)
+(*
+open OUnit2
+
+let tests = "suite" >::: [
+  "empty" >:: (fun _ -> assert_raises (Failure "list_max") (fun () -> list_max []));
+  "nonempty" >:: (fun _ -> assert_equal 8 (list_max [3; 1; 4; 8]))
+]
+
+let _ = run_test_tt_main tests
+*)
+
+(** Exercise: is_bts [****] TBD*)
+(** Exercise: quadrant poly [**] *)
+let sign_poly x =
+    if x < 0 then `Neg else
+    if x > 0 then `Pos else `Zero
+
+let quadrant_poly x y = 
+  match (sign_poly x, sign_poly y) with
+    | (`Pos, `Pos) -> Some `I
+    | (`Neg, `Pos) -> Some `II
+    | (`Neg, `Neg) -> Some `III
+    | (`Pos, `Neg) -> Some `IV
+    |  _ -> None
