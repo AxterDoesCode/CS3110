@@ -152,4 +152,38 @@ let earliest' = function
         in earliest_tr d1 xs
     end
 
+(** Exercise: assoc list [*] *)
+
+let insert k v lst = (k, v) :: lst
+
+let rec lookup k = function
+| [] -> None
+| (k', v) :: t -> if k = k' then Some v else lookup k t
+
+(** Exercise: cards [**] *)
+type suit = Club | Heart | Spade | Diamond
+type card = {suit : suit ; rank : int}
+let _ = {suit = Club ; rank = 1}
+let _ = {suit = Heart ; rank = 12}
+let _ = {suit = Diamond ; rank = 2}
+let _ = {suit = Spade ; rank = 7}
+
+(** Exercise: matching [*] *)
+
+(*Some x :: tl*)
+let lst1 : int option list = [None; Some 0]
+
+(*[Some 3110; None]*)
+let lst2 : int option list = [Some 123; None]
+
+(*[Some x; _]*)
+let lst3 : int option list = [None; Some 0]
+
+(*h1 :: h2 :: tl*)
+let lst4 : int option list = [None]
+
+(*h :: tl*)
+(*Impossible this binds to everything that is non zero length you can only not match it with the empty list []*)
+
+(** Exercise: quadrant [**] *)
 
