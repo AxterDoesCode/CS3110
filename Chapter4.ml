@@ -39,3 +39,20 @@ let sum_cube_odd n =
     |> List.fold_left ( + ) 0
 
 (** Exercise: exists [**] *)
+let rec exists_rec p = function
+    | [] -> false
+    | h :: t -> p h || exists_rec p t
+
+let exists_fold p lst = List.fold_left (fun acc elt -> acc || p elt) false lst
+
+let exists_lib = List.exists
+
+(** Exercise: account balance [***] *)
+let account_balance_fold_l balance = List.fold_left (fun acc el -> acc - el) balance
+
+let account_balance_fold_r balance = ListLabels.fold_right ~f:(fun el acc -> acc - el) ~init:balance
+
+let rec account_balance_rec balance = function
+    | [] -> balance
+    | h :: t -> account_balance_rec (balance - h) t
+
