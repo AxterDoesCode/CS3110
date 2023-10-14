@@ -56,3 +56,13 @@ let rec account_balance_rec balance = function
     | [] -> balance
     | h :: t -> account_balance_rec (balance - h) t
 
+(** Exercise: library uncurried [**] *)
+let uncurried_list_append (a, b) = List.append a b
+let uncurried_char_compare (a, b) = Char.compare a b
+let uncurried_max (a, b) = Stdlib.max a b
+
+(** Exercise: map composition [***] *)
+(*
+  List.map f (List.map g lst)
+  = List.map (fun x -> f(g x)) lst
+*)
