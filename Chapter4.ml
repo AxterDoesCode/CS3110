@@ -66,3 +66,31 @@ let uncurried_max (a, b) = Stdlib.max a b
   List.map f (List.map g lst)
   = List.map (fun x -> f(g x)) lst
 *)
+
+(** Exercise: more list fun [***] *)
+let filter3 = List.filter (fun x -> x > 3)
+let add1 = List.map (fun el -> el +. 1.)
+let join sep = List.fold_left (fun acc el -> if acc = "" then el else acc ^ sep ^ el) ""
+let join' sep = function
+    | [] -> ""
+    | x :: xs -> 
+        List.fold_left (fun combined s -> combined ^ sep ^ s) x xs
+
+(** Exercise: association list keys [***] *)
+let keys lst = 
+    lst
+    |> List.rev_map fst
+    |> List.sort_uniq Stdlib.compare
+
+(** Exercise: valid matrix [***] *)
+let valid_matrix = function
+    | [] -> false
+    | r :: rows ->
+        let m = List.length r in
+        m > 0 && List.for_all (fun r' -> List.length r' = m) rows
+
+(** Exercise: row vector add [***] *)
+let vector_add = List.map2 ( + )
+
+(** Exercise: matrix add [***] *)
+let matrix_add = List.map2 vector_add
