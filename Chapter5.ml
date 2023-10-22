@@ -72,3 +72,39 @@ module BstMap:Map = struct
             else if k < k' then lookup k l else lookup k r
 end
 
+(** Exercise: fraction [***] *)
+module type Fraction = sig
+  (* A fraction is a rational number p/q, where q != 0.*)
+  type t
+
+  (** [make n d] is n/d. Requires d != 0. *)
+  val make : int -> int -> t
+
+  val numerator : t -> int
+  val denominator : t -> int
+  val to_string : t -> string
+  val to_float : t -> float
+
+  val add : t -> t -> t
+  val mul : t -> t -> t
+end
+
+module Fraction : Fraction = struct
+    type t = int * int
+
+    let make n d = assert (d != 0); (n, d)
+
+    let numerator = fst
+
+    let denominator = snd
+    
+    let to_string t = string_of_int (fst t) ^ "/" ^ string_of_int (snd t)
+
+    let to_float (n, d) = float_of_int n /. float_of_int d
+
+    let add (n1, d1) (n2, d2) =
+        if d1 = d2 then (n1+n2, d1)
+        else (n1 * d2 + n2 * d1, d1 * d2)
+
+    let mul (n1, d1) (n2, d2) = (n1*n2, d1*d2)
+end
