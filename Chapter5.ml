@@ -147,7 +147,7 @@ end
 (** Exercise: char ordered [*] *)
 (*Char can be used in Map.Make since it fulfills the Map.OrderedType interface/module type, it has a type t and a compare function*)
 
-(** Exercise: use char map [*] *)
+(** Exercise: use char map [**] *)
 module CharMap = Map.Make(Char)
 let map = CharMap.(empty |> add 'A' "Alpha" |> add 'E' "Echo" |> add 'S' "Sierra" |> add 'V' "Victor")
 let e = CharMap.find 'E' map
@@ -155,3 +155,30 @@ let map' = CharMap.remove 'A' map
 let _ = CharMap.mem 'A' map'
 let bindings = CharMap.bindings map'
 
+(** Exercise: bindings [**] *)
+(*Bro they are all the same since it is sorted based on the keys not the insertion order*)
+
+(** Exercise: date order [**] *)
+type date = {month : int; day : int}
+module Date = struct
+  type t = date
+  let compare t1 t2 = 
+    let m' = t1.month - t2.month in
+    let d' = t1.day - t2.day in
+    if m' != 0 then m'
+    else d'
+end
+
+
+(** Exercise: calendar [**] *)
+module DateMap = Map.Make(Date)
+
+type calendar = string DateMap.t
+    let mycal = DateMap.(
+        empty
+        |> add {month=6; day=22} "bday"
+        |> add {month=5; day=16} "shonnyday"
+    )
+
+(** Exercise: print calendar [**] *)
+let print_calendar = DateMap.iter (fun k v -> print_endline (string_of_int k.month ^ " " ^ string_of_int k.day ^ " " ^ v))
