@@ -108,3 +108,50 @@ module Fraction : Fraction = struct
 
     let mul (n1, d1) (n2, d2) = (n1*n2, d1*d2)
 end
+
+let rec gcd x y =
+    if x = 0 then y
+    else if (x < y) then gcd (y - x) x
+    else gcd y (x - y)
+
+(** Exercise: fraction reduced [***] *)
+module RedFraction : Fraction = struct
+    type t = int * int
+
+
+    let make n d = 
+        assert (d != 0); 
+        (n, d)
+
+    let numerator = fst
+
+    let denominator = snd
+    
+    let to_string t = string_of_int (fst t) ^ "/" ^ string_of_int (snd t)
+
+    let to_float (n, d) = float_of_int n /. float_of_int d
+
+    let add (n1, d1) (n2, d2) =
+        if d1 = d2 then (n1+n2, d1)
+        else (n1 * d2 + n2 * d1, d1 * d2)
+
+    let mul (n1, d1) (n2, d2) = (n1*n2, d1*d2)
+end
+
+(** Exercise: make char map [*] *)
+(*module CharMap = Map.Make(Char)*)
+(*[empty] is an empty character map, it is of type 'a t since it is a map whose value type is not yet known*)
+(*[add] takes a key of type [key] a value of 'a and a map of type 'a t and returns a map of the same type*)
+(*[remove] takes a key of type [key] and a map of 'a t and returns a map of the same type*)
+
+(** Exercise: char ordered [*] *)
+(*Char can be used in Map.Make since it fulfills the Map.OrderedType interface/module type, it has a type t and a compare function*)
+
+(** Exercise: use char map [*] *)
+module CharMap = Map.Make(Char)
+let map = CharMap.(empty |> add 'A' "Alpha" |> add 'E' "Echo" |> add 'S' "Sierra" |> add 'V' "Victor")
+let e = CharMap.find 'E' map
+let map' = CharMap.remove 'A' map
+let _ = CharMap.mem 'A' map'
+let bindings = CharMap.bindings map'
+
