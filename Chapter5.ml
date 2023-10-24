@@ -182,3 +182,53 @@ type calendar = string DateMap.t
 
 (** Exercise: print calendar [**] *)
 let print_calendar = DateMap.iter (fun k v -> print_endline (string_of_int k.month ^ " " ^ string_of_int k.day ^ " " ^ v))
+
+(** Exercise: is for [***] *)
+let is_for = CharMap.mapi (fun a b -> Printf.sprintf "%s is for %s" (String.make 1 a) b)
+
+(** Exercise: first after [***] *)
+let third (_, _, x) = x
+let first_after c d = DateMap.(split d c |> third |> min_binding |> snd )
+
+(** Exercise: sets [***] *)
+module Sets = Set.Make(struct
+    type t = string
+    let compare s1 s2 = 
+        String.compare (String.lowercase_ascii s1) (String.lowercase_ascii s2)
+end)
+(** Exercise: ToString [**] *)
+module type ToString = sig
+    type t
+    val to_string : t -> string
+end
+
+(** Exercise: Print [**] *)
+module Print = functor (M: ToString) -> struct 
+    let print v = print_string (M.to_string v ^ "\n")
+end
+
+(** Exercise: Print Int [**] *)
+module Int = struct
+    type t = int
+    let to_string = string_of_int
+end
+
+module PrintInt = Print(Int)
+
+(** Exercise: Print String [**] *)
+module MyString = struct
+    type t = string
+    let to_string t = t
+end
+
+module PrintString = Print(MyString)
+
+(** Exercise: Print Reuse [*] *)
+(*This module has achieved code reuse by having a print function defined for the modue as long as it implements a ToString interface
+it wraps the details of printing so that each module only needs to specify how to turn M.t into a string*)
+
+(** Exercise: Print Reuse Revisited [**] *)
+module StringWithPrint = struct
+    include String
+    include Print(MyString)
+end
